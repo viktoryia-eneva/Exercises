@@ -23,6 +23,18 @@
 # sum_of_evens([1, 3])         -> 0
 # sum_of_evens([])             -> 0
 
+def sum_of_evens(nums):
+    sum = 0
+    
+    for i in range(len(nums)):
+        if nums[i] % 2 == 0:
+            sum += nums[i]
+    return sum
+print(sum_of_evens([1, 2, 3, 4]))
+print(sum_of_evens([-2, 5, 7]))
+print(sum_of_evens([1, 3]))
+print(sum_of_evens([]))
+        
 
 
 #EXERCISE 2 [EASY]: index_of_max(nums)
@@ -40,6 +52,22 @@
 # index_of_max([7])          -> 0
 # index_of_max([])           -> -1
 
+def index_of_max(nums):
+    if not nums:
+        return -1
+    
+    largest = nums[0]
+    bestIndex = 0
+    
+    for i in range(len(nums)):
+        if largest < nums[i]:
+            largest = nums[i]
+            bestIndex = i
+    return bestIndex
+print(index_of_max([3, 9, 2, 9]))
+print(index_of_max([-5, -1, -3]))
+print(index_of_max([7]))
+print(index_of_max([]))
 
 
 #EXERCISE 3 [EASY]: is_sorted(nums)
@@ -58,6 +86,16 @@
 # is_sorted([4])          -> True
 # is_sorted([])           -> True
 
+def is_sorted(nums):
+    
+    for i in range(len(nums) - 1):
+        if nums[i] > nums[i + 1]:
+            return False
+    return True
+print(is_sorted([1, 2, 2, 5]))
+print(is_sorted([1, 3, 2]))
+print(is_sorted([4]))
+print(is_sorted([]))
 
 
 #EXERCISE 4 [MEDIUM]: count_pairs_with_sum(nums, target)
@@ -74,7 +112,20 @@
 # count_pairs_with_sum([2, 2, 2], 4)    -> 3   (indices 0-1, 0-2, 1-2)
 # count_pairs_with_sum([1, 1], 5)       -> 0
 
+def count_pairs_with_sum(nums, target):
+    total = 0
+    count = 0
+    
+    for i in range(len(nums)):
+        for j in range(i + 1, len(nums)):
+            total = nums[i] + nums[j]
+            if total == target:
+                count += 1
+    return count
 
+print(count_pairs_with_sum([1, 2, 2, 3, 4], 5))
+print(count_pairs_with_sum([2, 2, 2], 4))
+print(count_pairs_with_sum([1, 1], 5))
 
 #EXERCISE 5 [MEDIUM]: contains_duplicate(nums)
 #
@@ -91,7 +142,17 @@
 # contains_duplicate([])           -> False
 #LeetCode 217 - first problem on NeetCode 150.
 
-
+def contains_duplicate(nums):
+    my_set = set()
+    
+    for num in nums:
+        if num in my_set:
+            return True
+        my_set.add(num)
+    return False
+print(contains_duplicate([1, 2, 3, 1]))
+print(contains_duplicate([1, 2, 3, 4]))
+print(contains_duplicate([]))
 
 #EXERCISE 6 [MEDIUM]: most_common_letter(text)
 #
@@ -110,7 +171,24 @@
 # most_common_letter("Banana!")       -> "a"
 # most_common_letter("a1 B b2")       -> "b"
 
-
+def most_common_letter(text):
+    frequency = {}
+    best_count = 0
+    best_letter = None
+    
+    for ch in text:
+        if ch.isalpha():
+            ch = ch.lower()
+            frequency[ch] = frequency.get(ch, 0) + 1
+        
+    for letter, count in frequency.items():
+            if count > best_count:
+                best_count = count
+                best_letter = letter
+    return best_letter
+print(most_common_letter("Hello World"))  # l
+print(most_common_letter("Banana!"))      # a
+print(most_common_letter("a1 B b2"))      # b       
 
 #EXERCISE 7 [MEDIUM]: two_sum_sorted(nums, target)
 #
@@ -130,7 +208,23 @@
 # two_sum_sorted([1, 2, 3], 10)       -> []
 #Close to LeetCode 167 (NeetCode two pointers).
 
-
+def two_sum_sorted(nums, target):
+    left = 0
+    right = len(nums) - 1
+    
+    while left < right:
+        total = nums[left] + nums[right]
+        
+        if total == target:
+            return [left, right]
+        elif total < target:
+            left += 1
+        else:
+            right -= 1
+    return []
+print(two_sum_sorted([1, 3, 4, 6, 9], 10))
+print(two_sum_sorted([2, 7, 11, 15], 9))
+print(two_sum_sorted([1, 2, 3], 10))
 
 #EXERCISE 8 [MEDIUM]: move_zeros(nums)
 #
@@ -152,7 +246,18 @@
 # move_zeros([4, 5])           -> [4, 5]
 #LeetCode 283.
 
-
+def move_zeros(nums):
+    write = 0
+    for read in range(0, len(nums)):
+        if nums[read] != 0:
+            nums[write] = nums[read]
+            write += 1
+    for i in range(write, len(nums)):
+        nums[i] = 0
+    return nums
+print(move_zeros([0, 1, 0, 3, 12]))
+print(move_zeros([0, 0, 1]))
+print(move_zeros([4, 5]))
 
 #EXERCISE 9 [HARD]: two_sum(nums, target)
 #
@@ -173,3 +278,17 @@
 # two_sum([1, 2], 10)        -> []
 #LeetCode 1 - the most famous interview
 #problem, also on NeetCode 150.
+
+def two_sums(nums, target):
+    seen = {}
+    
+    for i, num in enumerate(nums):
+        need = target - num
+        if need in seen:
+            return [seen[need], i]
+        seen[num] = i
+    return []
+print(two_sums([2, 7, 11, 15], 9))
+print(two_sums([3, 2, 4], 6))
+print(two_sums([3, 3], 6))
+print(two_sums([1, 2], 10))
