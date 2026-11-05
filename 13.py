@@ -25,7 +25,16 @@
 # grid_size([])                     -> (0, 0)
 
 def grid_size(grid):
+    if not grid:
+        return 0,0
     
+    a = len(grid)
+    b = len(grid[0])
+    
+    return a, b
+print(grid_size([[1, 2, 3], [4, 5, 6]]))
+print(grid_size([[7]]))
+print(grid_size([]))
 
 #W2 [EASY]: sum_grid(grid)
 #
@@ -38,7 +47,19 @@ def grid_size(grid):
 # sum_grid([[5]])            -> 5
 # sum_grid([])               -> 0
 
-
+def sum_grid(grid):
+    total = 0
+    
+    if not grid:
+        return 0
+    
+    for row in grid:
+        for value in row:
+            total += value
+    return total
+print(sum_grid([[1, 2], [3, 4]]))
+print(sum_grid([[5]]))
+print(sum_grid([]))
 
 #W3 [EASY]: make_grid(rows, cols, value)
 #
@@ -56,7 +77,10 @@ def grid_size(grid):
 # make_grid(2, 3, 0)   -> [[0, 0, 0], [0, 0, 0]]
 # make_grid(1, 2, ".") -> [[".", "."]]
 
-
+def make_grid(rows, cols, value):
+    return [[value] * cols for _ in range(rows)]
+print(make_grid(2, 3, 0))
+print(make_grid(1, 2, "."))
 
 #=========== PART B: EXERCISES ===========
 
@@ -70,7 +94,17 @@ def grid_size(grid):
 # row_sums([[1, 2, 3], [4, 5, 6]]) -> [6, 15]
 # row_sums([])                     -> []
 
-
+def row_sums(grid):
+    result = []
+    
+    for row in grid:
+        total = 0
+        for value in row:
+            total += value
+        result.append(total)
+    return result
+print(row_sums([[1, 2, 3], [4, 5, 6]]))
+print(row_sums([]))
 
 #EXERCISE 2 [MEDIUM]: col_sums(grid)
 #
@@ -85,7 +119,17 @@ def grid_size(grid):
 # col_sums([[1, 2, 3], [4, 5, 6]]) -> [5, 7, 9]
 # col_sums([[7], [8]])             -> [15]
 
-
+def col_sums(grid):
+    result = []
+    
+    for i in range(len(grid[0])):
+        total = 0
+        for j in range(len(grid)):
+            total += grid[j][i]
+        result.append(total)
+    return result
+print(col_sums([[1, 2, 3], [4, 5, 6]]))
+print(col_sums([[7], [8]]))
 
 #EXERCISE 3 [MEDIUM]: find_in_grid(grid, target)
 #
@@ -100,7 +144,15 @@ def grid_size(grid):
 # find_in_grid([[1, 2], [3, 4]], 4) -> (1, 1)
 # find_in_grid([[1, 2], [3, 4]], 9) -> (-1, -1)
 
-
+def find_in_grid(grid, target):
+    for i in range(len(grid)):
+        for j in range(len(grid[0])):
+            if grid[i][j] == target:
+                return i, j
+    return -1, -1
+print(find_in_grid([[1, 2], [3, 2]], 2))
+print(find_in_grid([[1, 2], [3, 4]], 4))
+print(find_in_grid([[1, 2], [3, 4]], 9))
 
 #EXERCISE 4 [MEDIUM]: diagonal_sum(grid)
 #
@@ -123,7 +175,18 @@ def grid_size(grid):
 # diagonal_sum([[5]])        -> 5
 #LeetCode 1572.
 
-
+def diagonal_sum(grid):
+    total = 0
+    
+    for i in range(len(grid)):
+        total += grid[i][i]
+        
+        if i != len(grid) - 1 - i:
+            total += grid[i][len(grid) - 1 - i]
+    return total
+print(diagonal_sum([[1, 2, 3], [4, 5, 6], [7, 8, 9]]))
+print(diagonal_sum([[1, 2], [3, 4]]))
+print(diagonal_sum([[5]]))
 
 #EXERCISE 5 [MEDIUM]: transpose(grid)
 #
@@ -141,7 +204,17 @@ def grid_size(grid):
 # transpose([[7]])        -> [[7]]
 #LeetCode 867.
 
-
+def transpose(grid):
+    rows = len(grid)
+    cols = len(grid[0])
+    result = make_grid(cols, rows, 0)
+    
+    for c in range(cols):
+        for r in range(rows):
+            result[c][r] = grid[r][c]
+    return result
+print(transpose([[1, 2, 3], [4, 5, 6]]))
+print(transpose([[7]]))
 
 #EXERCISE 6 [MEDIUM]: count_neighbours(grid, r, c)
 #
@@ -162,7 +235,25 @@ def grid_size(grid):
 # count_neighbours(g, 0, 0) -> 1   (only right and down exist; right is 1)
 # count_neighbours(g, 2, 2) -> 1   (up is 1, left is 0)
 
-
+def count_neighbours(grid, r, c):
+    rows = len(grid)
+    cols = len(grid[0])
+    count = 0
+    
+    directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+    
+    for dr, dc in directions:
+       nr = r + dr 
+       nc = c + dc
+       
+       if 0 <= nr < rows and 0 <= nc < cols and grid[nr][nc] == 1:
+           count += 1
+    return count
+g = [[1, 1, 0], [0, 1, 1], [1, 0, 1]]
+print(count_neighbours(g, 1, 1))
+print(count_neighbours(g, 0, 0))
+print(count_neighbours(g, 2, 2))
+    
 
 #EXERCISE 7 [HARD]: is_valid_sudoku(board)
 #
@@ -186,15 +277,15 @@ def grid_size(grid):
 #Test boards:
 
 board_ok = [
-    ["5", "3", ".", ".", "7", ".", ".", ".", "."],
-    ["6", ".", ".", "1", "9", "5", ".", ".", "."],
-    [".", "9", "8", ".", ".", ".", ".", "6", "."],
+   ["5", "3", ".", ".", "7", ".", ".", ".", "."],
+   ["6", ".", ".", "1", "9", "5", ".", ".", "."],
+   [".", "9", "8", ".", ".", ".", ".", "6", "."],
     ["8", ".", ".", ".", "6", ".", ".", ".", "3"],
-    ["4", ".", ".", "8", ".", "3", ".", ".", "1"],
-    ["7", ".", ".", ".", "2", ".", ".", ".", "6"],
+   ["4", ".", ".", "8", ".", "3", ".", ".", "1"],
+   ["7", ".", ".", ".", "2", ".", ".", ".", "6"],
     [".", "6", ".", ".", ".", ".", "2", "8", "."],
-    [".", ".", ".", "4", "1", "9", ".", ".", "5"],
-    [".", ".", ".", ".", "8", ".", ".", "7", "9"],
+[".", ".", ".", "4", "1", "9", ".", ".", "5"],
+  [".", ".", ".", ".", "8", ".", ".", "7", "9"],
 ]
 
 #Same board, but the top-left "5" becomes "8":
@@ -205,3 +296,27 @@ board_bad[0][0] = "8"
 
 # is_valid_sudoku(board_ok)  -> True
 # is_valid_sudoku(board_bad) -> False
+
+def is_valid_sudoku(board):
+    row_sets = [set() for _ in range(9)]
+    cols_sets = [set() for _ in range(9)]
+    box_sets = [set() for _ in range(9)]
+    
+    for r in range(9):
+        for c in range(9):
+            digit = board[r][c]
+            
+            if digit == ".":
+                continue
+            
+            b = (r // 3) * 3 + (c // 3)
+            
+            if digit in row_sets[r] or digit in cols_sets[c] or digit in box_sets[b]:
+                return False
+            
+            row_sets[r].add(digit)
+            cols_sets[c].add(digit)
+            box_sets[b].add(digit)
+    return True
+print(is_valid_sudoku(board_ok))
+print(is_valid_sudoku(board_bad))
