@@ -24,7 +24,8 @@
 # grid_size([[7]])                  -> (1, 1)
 # grid_size([])                     -> (0, 0)
 
-
+def grid_size(grid):
+    
 
 #W2 [EASY]: sum_grid(grid)
 #
