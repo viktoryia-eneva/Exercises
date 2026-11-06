@@ -94,7 +94,13 @@ print(sum_to(0))
 # power(2, 5)  -> 32
 # power(3, 3)  -> 27
 
-
+def power(base, exp):
+    if exp == 0:
+        return 1
+    return base * power(base, exp - 1)
+print(power(2, 0))
+print(power(2, 5))
+print(power(3, 3))
 
 #EXERCISE 2 [MEDIUM]: sum_list(nums, i)
 #
@@ -112,7 +118,14 @@ print(sum_to(0))
 # sum_list([], 0)        -> 0
 # sum_list([5], 0)       -> 5
 
-
+def sum_list(nums, i):
+    if i == len(nums):
+        return 0
+    
+    return nums[i] + sum_list(nums, i + 1)
+print(sum_list([3, 1, 4], 0))
+print(sum_list([], 0))
+print(sum_list([5], 0))
 
 #EXERCISE 3 [MEDIUM]: reverse_string(s)
 #
@@ -128,7 +141,13 @@ print(sum_to(0))
 # reverse_string("a")     -> "a"
 # reverse_string("")      -> ""
 
-
+def reverse_string(s):
+    if len(s) <= 1:
+        return s
+    return reverse_string(s[1:]) + s[0]
+print(reverse_string("abc"))
+print(reverse_string("a"))
+print(reverse_string(""))
 
 #EXERCISE 4 [MEDIUM]: count_target(nums, target, i)
 #
