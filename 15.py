@@ -114,7 +114,22 @@ print(r.perimeter())
 
 class Wallet:
     def __init__(self):
-        
+        self.balance = 0
+    def add(self, amount):
+        self.balance += amount
+    def spend(self, amount):
+        if amount <= self.balance:
+            self.balance -= amount
+            return True
+        else:
+            return False
+    def get_balance(self):
+        return self.balance
+w = Wallet()
+w.add(50)
+print(w.spend(20))
+print(w.spend(100))
+print(w.get_balance())
 
 #EXERCISE 2 [MEDIUM]: class Stack
 #
@@ -144,7 +159,37 @@ class Wallet:
 #You will use stacks in NeetCode's Stack
 #section (e.g. LeetCode 20, Valid Parentheses).
 
-
+class Stack:
+    def __init__(self):
+        self.items = []
+    def push(self, x):
+        self.items.append(x)
+    def pop(self):
+        if not self.items:
+            return None
+        else:
+            return self.items.pop()
+    def peek(self):
+        if not self.items:
+            return None
+        else:
+            return self.items[-1]
+    def is_empty(self):
+        if not self.items:
+            return True
+        else:
+            return False
+    def size(self):
+        return len(self.items)
+s = Stack()
+s.push(1); s.push(2); s.push(3)
+print(s.peek())      # 3
+print(s.pop())       # 3
+print(s.pop())       # 2
+print(s.size())      # 1
+print(s.is_empty())  # False
+s.pop()
+print(s.pop())       # None
 
 #EXERCISE 3 [MEDIUM]: class ListNode + print_list(head)
 #
@@ -166,7 +211,25 @@ class Wallet:
 #   3
 # print_list(None) prints nothing
 
-
+class ListNode:
+    def __init__(self, val, next=None):
+        self.val = val
+        self.next = next
+    
+head = ListNode(1)
+second = ListNode(2)
+third = ListNode(3)
+    
+head.next = second
+second.next = third
+    
+def print_list(head):
+    node = head
+    while node:
+        print(node.val)
+        node = node.next
+print_list(head)
+        
 
 #EXERCISE 4 [MEDIUM]: list_length(head), list_sum(head)
 #
@@ -180,6 +243,26 @@ class Wallet:
 # list_length(None) -> 0
 # list_sum(None)    -> 0
 
+def list_length(head):
+    count = 0
+    node = head
+    while node:
+        count += 1
+        node = node.next
+    return count
+
+def list_sum(head):
+    total = 0
+    node = head
+    while node:
+        total += node.val
+        node = node.next
+    return total
+
+print(list_length(head))    # 3
+print(list_sum(head))       # 6
+print(list_length(None))    # 0
+print(list_sum(None))       # 0
 
 
 #EXERCISE 5 [MEDIUM]: build_list(values), to_python_list(head)
@@ -201,7 +284,28 @@ class Wallet:
 #These two helpers let you test every
 #linked list problem in Phase 2.
 
+def build_list(values):
+    dummy = ListNode(0)
+    tail = dummy
+    
+    for v in values:
+        tail.next = ListNode(v)
+        tail = tail.next
+    head = dummy.next
+    
+    return head
 
+def to_python_list(head):
+    result = []
+    node = head
+    while node:
+        result.append(node.val)
+        node = node.next
+    
+    return result   
+h = build_list([4, 5, 6])
+print(to_python_list(h))                 # [4, 5, 6]
+print(to_python_list(build_list([])))    # []
 
 #EXERCISE 6 [MEDIUM]: class TreeNode + count_nodes(root)
 #
