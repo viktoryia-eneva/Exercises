@@ -163,7 +163,13 @@ print(reverse_string(""))
 # count_target([1, 2, 3], 9, 0)    -> 0
 # count_target([], 5, 0)           -> 0
 
-
+def count_target(nums, target, i):
+    if i == len(nums):
+        return 0
+    if nums[i] == target:
+        return 1 + count_target(nums, target, i + 1)
+    return count_target(nums, target, i + 1)
+print(count_target([1, 2, 1, 1], 1, 0))
 
 #EXERCISE 5 [MEDIUM]: is_palindrome_rec(s, left, right)
 #
@@ -181,8 +187,16 @@ print(reverse_string(""))
 # s = "hello";   is_palindrome_rec(s, 0, len(s) - 1) -> False
 # s = "";        is_palindrome_rec(s, 0, len(s) - 1) -> True
 
-
-
+def is_palindrome_rec(s, left, right):
+    if left >= right:
+        return True
+    
+    if s[left] != s[right]:
+        return False
+    return is_palindrome_rec(s, left + 1, right - 1)
+print(is_palindrome_rec("racecar", 0, 6))
+    
+    
 #EXERCISE 6 [MEDIUM]: sum_digits(n)
 #
 #Input:  n, an int >= 0
@@ -196,7 +210,11 @@ print(reverse_string(""))
 # sum_digits(5)   -> 5
 # sum_digits(0)   -> 0
 
-
+def sum_digits(n):
+    if n < 10:
+        return n
+    return n % 10 + sum_digits(n // 10)
+print(sum_digits(472))
 
 #EXERCISE 7 [HARD]: fib(n) and fib_memo(n, memo)
 #
@@ -223,3 +241,22 @@ print(reverse_string(""))
 #LeetCode 509; 7b is your first taste of
 #dynamic programming (LeetCode 70 is the
 #same idea - on NeetCode 150).
+
+def fib(n):
+    if n == 0:
+        return 0
+    
+    if n == 1:
+        return 1
+    
+    return fib(n - 1) + fib(n - 2)
+print(fib(10))
+
+def fib_memo(n , memo):
+    if n in memo:
+       return memo[n]
+    if n <= 1:
+       return n
+    memo[n] = fib_memo(n - 1, memo) + fib_memo(n - 2, memo)
+    return memo[n]
+print(fib_memo(10, {}))           
